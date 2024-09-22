@@ -5,13 +5,21 @@ import InputSection from '@/components/InputSection';
 import SankeyGraph from '@/components/SankeyGraph';
 import { useState } from 'react';
 
+
+function getSankeyData() {
+  if (typeof window !== "undefined") {
+    return JSON.parse(window.localStorage.getItem('sankeyData') || '[]')
+  }
+  return [];
+}
+
 export default function Home() {
   // random starting data
-  const [data, setData] = useState(JSON.parse(localStorage.getItem('sankeyData')) || []);
+  const [data, setData] = useState(getSankeyData || []);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center  w-full">
+      <main className="flex flex-col gap-8 row-start-2 items-center w-full">
         <InputSection data={data} setData={setData} />
         <SankeyGraph data={data} />
       </main>
